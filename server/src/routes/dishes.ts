@@ -1,5 +1,6 @@
 import { Context } from "koa";
 import Router from "koa-router";
+// import UserService from "../services/dishes";
 
 import DishesService from "../services/dishes";
 import { StatusCode } from "../utils/enum";
@@ -51,6 +52,7 @@ dishesRouter
     }
   })
   .post("/editDish", async (ctx: Context) => {
+    const userId = ctx.cookies.get("userid");
     const payload = ctx.request.body;
     const { dishName, dishTags, dishStep, dishId } = payload;
     try {
@@ -58,7 +60,8 @@ dishesRouter
         dishName,
         dishTags,
         dishStep,
-        dishId
+        dishId,
+        userId
       );
       if (data) {
         createRes({ ctx, statusCode: 201, data });
@@ -106,14 +109,15 @@ dishesRouter
 
     const payload = ctx.request.body;
     // const { dishName, dishTags, dishMaterial, dishStep } = payload;
-    const { dishName, dishTags, dishStep } = payload;
+    const { dishName, dishTags, dishStep, mealTime } = payload;
     try {
       const data = await dishesService.addDishes(
         userId,
         dishName,
         dishTags,
         // dishMaterial,
-        dishStep
+        dishStep,
+        mealTime
       );
       if (data) {
         // console.log("data存在");
@@ -134,8 +138,73 @@ dishesRouter
       });
     }
   })
+  // 计算推荐的星期食谱
+  .post("/countDishRecommendation", async (ctx: Context) => {
+    let userId = ctx.cookies.get("userid");
+    console.log(userId);
+
+    if (!userId) {
+      throw new Error("您未登录或用户不存在");
+    }
+    try {
+      const data = await dishesService.countDishRecommendation(userId);
+      if (data) {
+        createRes({ ctx, data, statusCode: 201 });
+      } else {
+        createRes({ ctx, data, errorCode: 1 });
+      }
+    } catch (error) {
+      createRes({ ctx, errorCode: 1, msg: error.message });
+    }
+  })
+  // 获取星期食谱
+  .post("/getDishRecommendation", async (ctx: Context) => {
+    try {
+      let userId = ctx.cookies.get("userid");
+
+      let data = await dishesService.getDishRecommmendation(userId);
+      createRes({
+        data,
+        statusCode: 201,
+        ctx,
+      });
+    } catch (error) {
+      createRes({ ctx, errorCode: 1, msg: error.message });
+    }
+  })
+  // 获取所有食谱
+  .post("/getAllDishes", async (ctx: Context) => {
+    const payload = ctx.request.body;
+    const { page, size } = payload;
+    try {
+      let data = await dishesService.getAllDishes(page, size);
+      if (data) {
+        createRes({ data, ctx, statusCode: 201 });
+      } else {
+        createRes({ ctx, errorCode: 1 });
+      }
+    } catch (error) {
+      createRes({ ctx, errorCode: 1, msg: error.message });
+    }
+  })
+  // 添加用户评分
+  .post("/addDishEvaluate", async (ctx: Context) => {
+    try {
+      let userId = ctx.cookies.get("userid");
+      const payload = ctx.request.body;
+      let { value, dishId } = payload;
+      let data = await dishesService.addDishEvaluate(dishId, userId, value);
+
+      createRes({ data, ctx, statusCode: 201 });
+    } catch (error) {
+      createRes({ ctx, errorCode: 1, msg: error.message });
+    }
+  })
+  // 添加用户喜欢
   .post("/addDishLike", async (ctx: Context) => {
     let userId = ctx.cookies.get("userid");
+    console.log(userId);
+
     if (!userId) {
       throw new Error("您未登录或用户不存在");
     }
@@ -159,6 +228,7 @@ dishesRouter
       });
     }
   })
+  // 删除用户喜欢
   .post("/deleteDishLike", async (ctx: Context) => {
     let userId = ctx.cookies.get("userid");
     if (!userId) {
@@ -184,6 +254,7 @@ dishesRouter
       });
     }
   })
+  // 添加用户讨厌
   .post("/addDishHate", async (ctx: Context) => {
     let userId = ctx.cookies.get("userid");
     if (!userId) {
@@ -270,7 +341,7 @@ dishesRouter
   })
   .post("/getDishInform", async (ctx: Context) => {
     console.log("jieshou");
-    
+
     const payload = ctx.request.body;
     const { dishId } = payload;
     try {
@@ -300,6 +371,15 @@ dishesRouter
         errorCode: 1,
         msg: error.message,
       });
+    }
+  })
+  .post("/guessYouLike", async (ctx: Context) => {
+    try {
+      const userId = ctx.cookies.get("userid");
+      let data: any = await dishesService.guessYouLike(userId);
+      createRes({ data, ctx, statusCode: 201 });
+    } catch (error) {
+      createRes({ ctx, errorCode: 1, msg: error.message });
     }
   });
 

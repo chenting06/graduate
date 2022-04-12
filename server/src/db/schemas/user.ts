@@ -18,4 +18,6 @@ export const UserSchema = new Schema({
   userDislike: Array,
   userNutritionEnergy: Array,
   userNutritionWeight: Array,
+  userRecommendation: Object,
+  userEvaluate:Array
 });

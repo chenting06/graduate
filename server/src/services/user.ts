@@ -34,20 +34,81 @@ export default class UserService {
             { $set: { userName: editContent } }
           );
         case "height":
-          return await User.updateOne(
+          let res = await User.updateOne(
             { _id: userId },
             { $set: { userHeight: editContent } }
           );
+          let user = await User.findOne({
+            _id: userId,
+          });
+          const { userWeight, userHeight, userWorkout } = user;
+          let energy = countUserNutritionEnergy(
+            userWeight,
+            userHeight,
+            userWorkout
+          );
+          let res1 = await User.updateOne(
+            { _id: userId },
+            {
+              $set: {
+                userNutritionEnergy: energy.nutritionEnergy,
+                userNutritionWeight: energy.nutritionWeight,
+              },
+            }
+          );
+
+          return res1;
+          break;
         case "weight":
-          return await User.updateOne(
+          await User.updateOne(
             { _id: userId },
             { $set: { userWeight: editContent } }
           );
+
+          let user1 = await User.findOne({
+            _id: userId,
+          });
+          let energy1 = countUserNutritionEnergy(
+            user1.userWeight,
+            user1.userHeight,
+            user1.userWorkout
+          );
+          let res2 = await User.updateOne(
+            { _id: userId },
+            {
+              $set: {
+                userNutritionEnergy: energy1.nutritionEnergy,
+                userNutritionWeight: energy1.nutritionWeight,
+              },
+            }
+          );
+
+          return res2;
+          break;
         case "workout":
-          return await User.updateOne(
+          await User.updateOne(
             { _id: userId },
             { $set: { userWorkout: editContent } }
           );
+          let user2 = await User.findOne({
+            _id: userId,
+          });
+          let energy2 = countUserNutritionEnergy(
+            user2.userWeight,
+            user2.userHeight,
+            user2.userWorkout
+          );
+          let res3 = await User.updateOne(
+            { _id: userId },
+            {
+              $set: {
+                userNutritionEnergy: energy2.nutritionEnergy,
+                userNutritionWeight: energy2.nutritionWeight,
+              },
+            }
+          );
+
+          return res3;
         case "icon":
           return await User.updateOne(
             { _id: userId },
@@ -233,6 +294,8 @@ export default class UserService {
         userDislike: [],
         userNutritionEnergy,
         userNutritionWeight,
+        userRecommendation: {},
+        userEvaluate: [],
       });
       return await user.save();
     } catch (error) {

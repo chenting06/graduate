@@ -5,10 +5,10 @@ import Router from "koa-router";
 import UserService from "../services/user";
 import { StatusCode } from "../utils/enum";
 import createRes from "../utils/response";
-const fs = require('fs');   
+const fs = require("fs");
 const userService = new UserService();
 const multer: any = require("koa-multer");
-const path = require('path');
+const path = require("path");
 const userRouter = new Router({
   prefix: "/api/users",
 });
@@ -17,8 +17,6 @@ const userRouter = new Router({
 // });
 
 // const types = upload.single('avatar');
-
-
 
 // const file = require("file");
 
@@ -39,7 +37,7 @@ async function edit(ctx: Context, editContent: String) {
   let content = "";
   let content1 = "";
   let content2 = "";
-  let user:any;
+  let user: any;
   switch (editContent) {
     case "userName":
       content = payload.newUserName;
@@ -85,7 +83,7 @@ async function edit(ctx: Context, editContent: String) {
   try {
     switch (editContent) {
       case "loginFree":
-        user=await userService.loginFree(userId);
+        user = await userService.loginFree(userId);
         break;
       case "userName":
         user = await userService.editUserName(userId, content);
@@ -130,7 +128,7 @@ async function edit(ctx: Context, editContent: String) {
     createRes({
       ctx,
       statusCode: StatusCode.Created,
-      msg:user
+      msg: user,
     });
   } catch (error) {
     createRes({
@@ -141,7 +139,9 @@ async function edit(ctx: Context, editContent: String) {
   }
 }
 userRouter
-.post("/loginFree",async(ctx:Context)=>{await edit(ctx,"loginFree")})
+  .post("/loginFree", async (ctx: Context) => {
+    await edit(ctx, "loginFree");
+  })
   .post("/login", async (ctx: Context) => {
     // ctx.set("Access-Control-Allow-Credentials"," *");
     // ctx.set("Access-Control-Allow-Origin", "http://localhost:3001");
@@ -222,30 +222,22 @@ userRouter
   .post("/", async (ctx: Context) => {
     // console.log("routes连上");
     const payload = ctx.request.body;
-    const {
-      userName,
-      userHeight,
-      userWeight,
-      userWorkout,
-      userPsd,
-      
-    } = payload;
+    const { userName, userHeight, userWeight, userWorkout, userPsd } = payload;
     try {
       const data = await userService.addUser(
         userName,
         userHeight,
         userWeight,
         userWorkout,
-       
-        userPsd,
-       
+
+        userPsd
       );
-            if (data) {
+      if (data) {
         // console.log("huoqudata");
         createRes({
           ctx,
           statusCode: StatusCode.Created,
-          data
+          data,
         });
       }
     } catch (error) {
@@ -256,7 +248,8 @@ userRouter
         msg: error.message,
       });
     }
-  })
+  });
+
 //   .get('/upload', async (ctx:any, next) => {
 //     await ctx.render('upload')
 //     .post('/profile', types, async  (ctx:any, next:any) => {
@@ -273,8 +266,6 @@ userRouter
 //   });
 // })
 
-  
-  
 // .post('/uploadPic',async(ctx:any)=>{
 //   await userService.uploadPicture(ctx)
 // });

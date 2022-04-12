@@ -11,7 +11,7 @@ export interface DishesTypes {
 }
 export const DishesSchema: Schema = new Schema({
   dishName: {
-    type: String,  
+    type: String,
   },
   dishTags: Array,
   dishMaterial: Array,
@@ -20,4 +20,8 @@ export const DishesSchema: Schema = new Schema({
   dishHate: Array,
   dishComment: Array,
   dishUploader: String,
+  dishNutritionEnergy: Array,
+  dishNutritionWeight: Array,
+  mealTime: String,
+  dishEvaluate: Array,
 });
