@@ -615,12 +615,12 @@ export default class DishesService {
         let arr = []; // 用于返回距离的数组
         let child = []; // 存放提取出的、被比较的子数据
         let father = []; // 存放提取出的所有
-console.log(dataChild);
-
         /** 开始提取数据 **/
-        for (let key in dataChild){ console.log(key);
-        console.log(dataChild[key]);
-        ;child.push(dataChild[key])};
+        for (let key in dataChild) {
+          //  console.log(key);
+          // console.log(dataChild[key]);
+          child.push(dataChild[key]);
+        }
 
         for (let key1 in dataFather) {
           let arr_child = [];
@@ -643,11 +643,6 @@ console.log(dataChild);
           let _y = 0;
           for (let j = 0; j < child.length; j++)
             if (child[j] != 0 && father[i][j] != 0) {
-              console.log(child[j]);
-              console.log("child[j]");
-              console.log("father[i][j]");
-              console.log(father[i][j]);
-
               _x += child[j];
               _y += father[i][j];
             }
@@ -660,8 +655,6 @@ console.log(dataChild);
             if (child[j] != 0 && father[i][j] != 0) {
               fenzi += (child[j] - _x) * (father[i][j] - _y);
             }
-          console.log(fenzi + "fenzi");
-
           // 计算分母
           let fenmu = 0;
           let fenmux = 0;
@@ -672,16 +665,54 @@ console.log(dataChild);
               fenmuy += Math.pow(father[i][j] - _y, 2);
             }
           fenmu = Math.sqrt(fenmux * fenmuy);
-          console.log(fenmu + "fenmu");
-
           arr.push(fenzi / fenmu);
         }
         return arr;
       };
       // console.log(dataChild);
       // console.log(dataFather);
+      let maxId = (arr: number[], userId: any) => {
+        let indexLast = 0;
+        // 因为dataFather是由对象形成的数组，
+        // 所以在获取某一元素的键名时用Object.keys(dataFather)[0]
+        // 而不是Object.keys(dataFather[0])[0]
+        if (Object.keys(dataFather)[0] == userId) {
+          indexLast = 1;
+        }
+        arr.map(function (item, index) {
+          if (
+            item > arr[indexLast] &&
+            Object.keys(dataFather)[index] != userId
+          ) {
+            indexLast = index;
+          }
+        });
+        return Object.keys(dataFather)[indexLast];
+      };
 
-      console.log(pearson(dataFather[userId  as keyof typeof dataFather ], dataFather));
+      let relationValue = pearson(
+        dataFather[userId as keyof typeof dataFather],
+        dataFather
+      );
+      let resultId = maxId(relationValue, userId);
+      console.log(resultId);
+      let recommendUser = await User.findById(resultId);
+      let recommendDishId: any = [];
+      if (recommendUser.userLike.length > 0) {
+        recommendDishId = [...recommendUser.userLike];
+      }
+      for (let i = 0; i < recommendUser.userEvaluate.length; i++) {
+        if (recommendUser.userEvaluate[i].value > 3) {
+          recommendDishId.push(recommendUser.userEvaluate[i].dishId);
+        }
+      }
+      let recommendDish = [];
+      for (let i = 0; i < recommendDishId.length; i++) {
+        recommendDish[i] = await Dishes.findById(recommendDishId[i]);
+      }
+      console.log(recommendDishId);
+
+      return recommendDish;
     } catch (error) {
       console.log(error);
     }
@@ -1094,4 +1125,5 @@ console.log(dataChild);
       throw error;
     }
   }
+  
 }

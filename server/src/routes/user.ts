@@ -218,6 +218,20 @@ userRouter
   .post("/editUserDishes", async (ctx: Context) => {
     await edit(ctx, "userDishes");
   })
+  .post("/searchDishes", async (ctx: Context) => {
+    const payload = ctx.request.body;
+    let searchContent = payload.searchContent;
+    let data: any = await userService.searchDishes(searchContent);
+    if (data) {
+      createRes({
+        ctx,
+        data,
+        statusCode: 201,
+      });
+    } else {
+      createRes({ ctx, data, errorCode: 1 });
+    }
+  })
   // 注册
   .post("/", async (ctx: Context) => {
     // console.log("routes连上");

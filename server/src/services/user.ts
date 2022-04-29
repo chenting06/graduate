@@ -3,12 +3,29 @@ import User from "../db/models/user";
 import { countUserNutritionEnergy } from "../public/commonImplement";
 import Dishes from "../db/models/dishes";
 import { Context } from "koa";
+import dishes from "../db/models/dishes";
 
 interface Comment {
   dishId: String;
   commentId: String;
   userId: String;
   content: String;
+}
+interface DishItem {
+  dishTags: [];
+  dishMaterial: [];
+  dishStep: [];
+  dishLike: [];
+  dishHate: [];
+  dishComment: [];
+  dishNutritionEnergy: [];
+  dishNutritionWeight: [];
+  dishEvaluate: [];
+  _id: string;
+  dishName: string;
+  dishUploader: string;
+  mealTime: string;
+  __v: 0;
 }
 export default class UserService {
   async edit(
@@ -436,4 +453,28 @@ export default class UserService {
   // const basename = path.basename(file.path);
   // // ctx.body = { url: `${ctx.origin}/uploads/${basename}` }
   // }
+  public async searchDishes(searchContent: string) {
+    let dishAll = await dishes.find();
+    let dishResult: DishItem[] = [];
+    dishAll.map(function (item: DishItem) {
+      // 是正则表达式的匹配字段用变量表示
+      // 相当于 /searchCotent的值/g
+      let flag = 0;
+      let isName = new RegExp(searchContent, "g");
+      if (isName.test(item.dishName)) {
+        dishResult.push(item);
+        flag = 1;
+        return;
+      } else {
+        item.dishTags.map(function (materItem) {
+          let materName = Object.keys(materItem)[0];
+          if (isName.test(materName) && flag === 0) {
+            dishResult.push(item);
+            flag = 1;
+          }
+        });
+      }
+    });
+    return dishResult;
+  }
 }
