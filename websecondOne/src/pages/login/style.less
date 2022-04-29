@@ -1,0 +1,84 @@
+@import "~antd/dist/antd.css";
+.login {
+  box-sizing: border-box;
+  padding-bottom: 0px;
+  width: 100%;
+  // 使竖向高度为100%
+  height: 100%;
+  min-height: 100vh;
+  background-image: url("../../../public/img/cover.jpg");
+  background-size: cover;
+  position: relative;
+
+  .loginTotal {
+    padding: 200px 0;
+    position: absolute;
+    width: 100%;
+    z-index: 500;
+    .maskLogin:hover {
+      animation: addRadius 1.5s ease 0s;
+      animation-fill-mode: forwards;
+    }
+    @keyframes addRadius {
+      from {
+        border-radius: 0px;
+      }
+      to {
+        border-radius: 20px;
+       
+      }
+    }
+    .maskLogin {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 5px 8px 5px;
+      background-color: rgba(0, 0, 0, 0.3);
+      .loginTitle {
+        font-size: 30px;
+        color: white;
+        text-align: center;
+        font-family: cursive;
+        padding-top: 10px;
+        margin-bottom: 10px;
+      }
+      // opacity: 0.1;
+      .login_form {
+        color: white;
+        .login_form_forgot {
+          float: right;
+        }
+        .ant_col_rtl .login_form_forgot {
+          float: left;
+        }
+        .login_form_button {
+          width: 100%;
+        }
+        #components_form_demo_normal_login .login_form {
+          max-width: 300px;
+        }
+        #components_form_demo_normal_login .login_form_forgot {
+          float: right;
+        }
+        #components_form_demo_normal_login .ant_col_rtl .login_form_forgot {
+          float: left;
+        }
+        #components_form_demo_normal_login .login_form_button {
+          width: 100%;
+        }
+      }
+      .loginButton {
+        color: rgba(255, 255, 255);
+        background-color: rgba(0, 0, 0, 0);
+        width: 100%;
+        border: none;
+      }
+      // #normal_login_username {
+      //   background-color: rgba(255, 255, 255, 0.2);
+      // }
+      .loginButton:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+        outline: none;
+      }
+    }
+  }
+}

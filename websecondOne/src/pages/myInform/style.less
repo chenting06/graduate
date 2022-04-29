@@ -1,0 +1,57 @@
+.myInformcontent {
+  min-height: 100vh;
+  background: linear-gradient(to left, rgb(220, 237, 193), rgb(58, 187, 217));
+
+  padding: 65px 0;
+  display: flex;
+  .verticleChoice {
+    ul {
+      padding: 20px 10px;
+      padding-left: 0;
+      list-style: none;
+      li {
+        border-radius: 0px 60px 60px 0;
+        color: white;
+        padding: 20px 30px;
+        width: 150px;
+        font-size: 20px;
+        font-weight: 300;
+        // border: solid 1px #ccc;
+      }
+      li:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+    }
+  }
+}
+.myInform {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  // width: 1000px;
+  margin: 10px auto;
+  text-align: center;
+  .edit {
+    // display: none;
+    margin: 10px auto;
+    transform: translateX(50px);
+    width: 400px;
+    text-align: left;
+    input {
+      outline: none;
+      border: none;
+    }
+    .fontEdit {
+      color: red;
+      cursor: pointer;
+    }
+  }
+  .authorDishesAll {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
