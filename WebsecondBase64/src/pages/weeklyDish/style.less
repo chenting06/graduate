@@ -1,0 +1,88 @@
+.weeklyDish {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgb(220, 237, 193), rgb(58, 187, 217));
+  padding: 50px;
+  .weeklyTitle {
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    font-family: cursive;
+    .iconUpdate{
+      vertical-align: middle;
+      margin-left: 5px;
+      font-size: 20px;
+    }
+    .iconUpdate:hover{
+      cursor: pointer;
+    }
+  }
+  .cardContent .title{
+    margin-right: 5px;
+  }
+  .weeklyTotal {
+    ul {
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+      li {
+        list-style: none;
+        .card {
+          height: 250px;
+          // padding: 30px 20px;
+          width: 320px;
+          border: solid 1px #ccc;
+          margin-bottom: 20px;
+          background-color: rgba(153, 152, 221,.1);
+          color: white;
+          .cardTitle {
+            font-family: cursive;
+            font-weight: 700;
+            font-size: 30px;
+            margin-bottom: 5px;
+          }
+          p {
+            margin: 0;
+            padding: 3px;
+          }
+          box-shadow: 2px 3px 2px #ccc;
+        }
+        .card:hover {
+          cursor: pointer;
+          color: white;
+
+          background-color: rgba(153, 152, 221,.3)
+        }
+        .arrCard {
+          text-align: center;
+          vertical-align: top;
+          p {
+            text-align: left;
+            // -webkit-margin-before:0;
+            // -webkit-margin-after:0;
+
+            //     font-size: 20px;
+            //     margin: 0;
+            //     padding: 0;
+            //     color: #ccc;
+          }
+        }
+        .arrCard:hover {
+          .arr {
+            color: white;
+          }
+          p {
+            color: white;
+          }
+        }
+        .arr {
+          font-size: 140px;
+          color: white;
+          line-height: 1;
+          // margin: 10px auto;
+        }
+      }
+    }
+  }
+}

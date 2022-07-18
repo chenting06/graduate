@@ -1,0 +1,131 @@
+.self {
+  color: red;
+  // background-color: red;
+}
+.redColor {
+  color: red;
+}
+.blackColor {
+  color: black;
+}
+.detailDishTotal {
+  display: inline-block;
+  min-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(to right, rgb(220, 237, 193), rgb(58, 187, 217));
+  .detailDish {
+    margin: 10px auto;
+    width: 1000px;
+    .collect {
+
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      color: white;
+    }
+    .collect:hover{
+      cursor: pointer;
+    }
+    .title {
+      font-size: 42px;
+      text-align: center;
+    }
+    ul {
+      text-decoration: none;
+    }
+    li {
+      list-style: none;
+    }
+    .dishTag {
+      width: 400px;
+      margin: 10px auto;
+      li {
+        width: 300px;
+        display: flex;
+        justify-content: space-around;
+        border-bottom: dashed 1px #ccc;
+      }
+    }
+    .dishStep {
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-around;
+        justify-content: space-between;
+      }
+      li {
+        width: 400px;
+        margin: 10px;
+      }
+      img {
+        width: 100%;
+        height: 200px;
+      }
+    }
+    .author {
+      display: flex;
+      justify-content: space-around;
+      vertical-align: baseline;
+      img {
+        width: 100px;
+        border-radius: 50%;
+      }
+      .iconfontPlus {
+        font-size: 40px;
+        cursor: pointer;
+      }
+    }
+    .energy {
+      padding-top: 25px;
+      table {
+        width: 100%;
+        height: inherit;
+        font-size: 18px;
+        // tr {
+        //   margin: 5px;
+        //   padding: 5px;
+        //   font-weight: 500;
+        // }
+      }
+    }
+    // .myEvaluate{
+    //   margin-right: 30px;
+    // }
+    .evaluate {
+      margin-top: 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      // line-height: 100%;
+      // display: inline-block;
+      width: 100%;
+      vertical-align: text-bottom;
+      .equalize,.myEvaluate{
+        // chrom浏览器的默认line-height为font-size的1.2倍
+        //但是由于其和button在一行，button的上下padding将盒子撑开了，于是height发生了变化
+        // 此时line-height还是原来的值，line-height决定文字据盒子顶部的距离
+        // height决定盒子的整体高度，height增加了但是line-height没有增加，所以显示出文字在盒子的上部
+        // 故若盒子高度改变后还想要文字在盒子中竖向居中应该改变line-height
+        line-height: 32px;
+      }
+      .personalEvaluate {
+        span:hover {
+          cursor: pointer;
+        }
+
+        button {
+          border: none;
+          background-color: rgba(0, 0, 0, 0.3);
+          padding: 5px 20px;
+          // margin-left: 20px;
+          border-radius: 15px;
+          color: white;
+          outline: none;
+        }
+        button:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
